@@ -5,35 +5,39 @@ const aboutData = [
   {
     id: 1,
     // Content for Top Left Image (Uses ID 1 image, ID 2 content)
-    headline: 'Your Headline Here',
-    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-    imageSrc: '/images/back3.jpg', // Top-Left Image
+    headline: 'Puresounds Cloud',
+    description: 'Fast loading, optimized assets, and smooth interactions using React.js, Next.js, Zustand, Axios, and reusable component architecture.',
+    imageSrc: '/images/projects/puresounds-cloud.png',
+    link:'https://www.puresounds.cloud/',
   },
   {
     id: 2,
     // Content for Top Right Content (Uses ID 1 image, ID 2 content)
-    headline: 'Your Headline Here',
-    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-    imageSrc: '/images/back5.jpg', // Top-Right Image
+    headline: 'Feestburo Be',
+    description: 'I craft pixel-perfect interfaces using HTML, CSS, Bootstrap,Jquery,Javascript, and modern design systems. Every layout is clean, intuitive, and built with a user-first approach.',
+    imageSrc: '/images/projects/feestburo-be.png', 
+    link:'https://www.feestburo.be/',
   },
   {
     id: 3,
     // Content for Bottom Left Content
-    headline: 'Your Headline Here',
-    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-    imageSrc: '/images/back9.jpg', // Bottom-Center Image
+    headline: 'Alphagas Sa',
+    description: 'I craft pixel-perfect interfaces using HTML, CSS, Bootstrap,Jquery,Javascript and modern design systems.',
+    imageSrc: '/images/projects/alphagas-sa-en.png', 
+    link:'https://alphagas-sa.com/en/home',
   },
 ];
 
-const ContentBlock = ({ headline, description }) => (
+const ContentBlock = ({ headline, description,link }) => (
   <div className="p-6 min-h-[300px] bg-white shadow-xl rounded-lg flex flex-col justify-center text-center">
-    <p className="text-sm font-semibold text-amber-500 uppercase tracking-wider">Description</p>
+    <p className="text-sm font-semibold text-amber-500 uppercase tracking-wider">Best Project</p>
     <h3 className="mt-2 text-xl font-bold text-gray-900">{headline}</h3>
     <p className="mt-4 text-gray-600 text-sm">{description}</p>
     <a 
-      href="#" 
+      href={link}
+      target="_blank"
       className="mt-6 inline-block bg-amber-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-black transition duration-150 text-center mx-auto"
-      style={{ maxWidth: '140px' }} // Button width adjustment
+      style={{ maxWidth: '140px' }}
     >
       Read More
     </a>
@@ -48,10 +52,10 @@ const ImageBlock = ({ src, alt, overlayOpacity = 'opacity-20' }) => (
       fill
       style={{ objectFit: 'cover' }}
       className="group-hover:opacity-75 transition-opacity duration-300"
-      sizes="(max-width: 1024px) 100vw, 33vw" // Adjusted sizes for 3-column layout
+      sizes="(max-width: 1024px) 100vw, 33vw"
     />
     {/* Dark overlay for design aesthetic */}
-    <div className={`absolute inset-0 bg-purple-900 ${overlayOpacity}`}></div>
+    {/* <div className={`absolute inset-0 bg-purple-900 ${overlayOpacity}`}></div> */}
   </div>
 );
 
@@ -59,10 +63,6 @@ const AboutUs = () => {
   return (
     <section className="py-16 md:py-24 bg-gray-50">
       <div className="container">
-        <h2 className="text-center text-4xl font-bold text-gray-900 mb-16">
-          Meet Our Team & Mission
-        </h2>
-        
         {/* Main Grid Container: 3 Columns on Large Screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-white p-10">
           
@@ -80,6 +80,7 @@ const AboutUs = () => {
             <ContentBlock 
               headline={aboutData[0].headline} 
               description={aboutData[0].description} 
+               link={aboutData[0].link}
             />
           </div>
 
@@ -98,6 +99,7 @@ const AboutUs = () => {
             <ContentBlock 
               headline={aboutData[2].headline} 
               description={aboutData[2].description} 
+              link={aboutData[2].link}
             />
           </div>
           
@@ -115,6 +117,7 @@ const AboutUs = () => {
             <ContentBlock 
               headline={aboutData[1].headline} // Using the description from data 2 for consistency
               description={aboutData[1].description} 
+              link={aboutData[1].link}
             />
           </div>
 

@@ -5,13 +5,14 @@ import { CheckCircle } from 'lucide-react';
 const featuresData = {
   headline: 'Our Features',
   subheading: 'Features',
-  description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. There are many variations of passages of Lorem Ipsum available. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour. There are many variations of passages of Lorem Ipsum available.",
+  description: "As a dedicated Frontend Developer, I bring modern, high-performance, and user-friendly solutions to every project. My focus is on creating visually appealing, responsive, and optimized interfaces that deliver real value to users.",
   imageSrc: '/images/feature-img.png', // Replace with your actual image path
   imageAlt: 'Smiling businessman standing in front of his team',
   featureItems: [
-    "There are many variations of passages",
-    "There are many variations of passages",
-    "There are many variations of passages",
+    "A beautiful UI section",
+    "A React/Next.js component",
+    "A Tailwind-designed features grid",
+    "A landing page section"
   ]
 };
 

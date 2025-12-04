@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // TYPES
 interface WorkItem {
@@ -175,9 +176,9 @@ const worksData: WorkItem[] = [
 ];
 
 // CATEGORY LIST
-const categories = ["All", "Web Design", "UI/UX Design", "Reactjs", "Nextjs", "Nodejs"];
+const categories = ["All", "Web Design", "UI/UX Design", "Reactjs","Nextjs","Nodejs"];
 
-// INDIVIDUAL PORTFOLIO ITEM — PURE CSS ANIMATION
+// INDIVIDUAL PORTFOLIO ITEM — ONLY FADE ANIMATION
 const PortfolioItem: React.FC<PortfolioItemProps> = ({
   title,
   category,
@@ -191,9 +192,13 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
       : category;
 
   return (
-    <div
-      className="group overflow-hidden rounded-xl shadow-lg bg-white hover:shadow-2xl transition 
-                 opacity-0 translate-y-5 animate-[fadeInUp_0.6s_ease_forwards]"
+    <motion.div
+      layout
+      initial={{ opacity: 0 }}     // FADE IN
+      animate={{ opacity: 1 }}     // FADE
+      exit={{ opacity: 0 }}        // FADE OUT
+      transition={{ duration: 0.4 }}
+      className="group overflow-hidden rounded-xl shadow-lg bg-white hover:shadow-2xl transition"
     >
       {/* IMAGE */}
       <div className="relative w-full aspect-[4/3] overflow-hidden">
@@ -205,16 +210,18 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
         />
 
         {/* HOVER BUTTON */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 
-                        flex items-center justify-center transition duration-300">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          className="absolute inset-0 bg-black/40 flex items-center justify-center"
+        >
           <a
-            href={link}
-            target="_blank"
+            href={link} target="_blank"
             className="px-5 py-3 bg-white text-amber-500 font-semibold rounded-full flex items-center gap-2 hover:bg-amber-500 hover:text-white transition"
           >
             View Project <ArrowRight size={20} />
           </a>
-        </div>
+        </motion.div>
       </div>
 
       {/* TEXT */}
@@ -224,16 +231,15 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
         </p>
         <h3 className="text-lg font-bold text-gray-900">{title}</h3>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 // MAIN WORKS SECTION
 const WorksSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [visibleCount, setVisibleCount] = useState<number>(6);
 
-  // FILTER
+  // FILTER (Case-insensitive)
   const filteredWorks = worksData.filter((item) => {
     const selected = activeCategory.toLowerCase();
     return (
@@ -242,12 +248,6 @@ const WorksSection: React.FC = () => {
       item.subcategories.some((sub) => sub.toLowerCase() === selected)
     );
   });
-
-  const visibleWorks = filteredWorks.slice(0, visibleCount);
-
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 3);
-  };
 
   return (
     <section className="py-20 bg-white" id="works">
@@ -262,10 +262,7 @@ const WorksSection: React.FC = () => {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => {
-                setActiveCategory(cat);
-                setVisibleCount(6); // reset to 6 on category change
-              }}
+              onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2 rounded-full text-sm transition-all duration-300 ${
                 activeCategory === cat
                   ? "bg-[#fc9800] text-white shadow-md"
@@ -277,33 +274,18 @@ const WorksSection: React.FC = () => {
           ))}
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {visibleWorks.map((work, i) => (
-            <PortfolioItem key={i} {...work} />
-          ))}
-        </div>
-
-        {/* LOAD MORE BUTTON */}
-        {visibleCount < filteredWorks.length && (
-          <div className="text-center mt-12">
-            <button
-              onClick={handleLoadMore}
-              className="px-7 py-3 bg-[#fc9800] text-white font-semibold rounded-full hover:bg-[#e08800] transition"
-            >
-              Load More
-            </button>
-          </div>
-        )}
+        {/* GRID WITH ONLY FADE ANIMATION */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence>
+            {filteredWorks.map((work, i) => (
+              <PortfolioItem key={i} {...work} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
-
-      {/* CSS Animation Keyframes */}
-      <style>{`
-        @keyframes fadeInUp {
-          0% { opacity: 0; transform: translateY(20px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </section>
   );
 };
