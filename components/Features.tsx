@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { CheckCircle } from 'lucide-react'; 
+import { TransitionUp } from '@/animation/framerAnimation';
 
 const featuresData = {
   headline: 'Our Features',
@@ -16,13 +17,23 @@ const featuresData = {
   ]
 };
 
-const Features = () => {
+const Features = ({id}) => {
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-16 md:py-24 bg-white relative" id={id}>
+      <div className="absolute inset-0 opacity-80">
+        <Image
+          src="/images/career-default-bg.svg"
+          alt="Left Background"
+          fill
+          style={{ objectFit: "cover" }}
+          sizes="100vw"
+          priority
+        />
+      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Grid Container: 2 Columns on Large Screens */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <TransitionUp className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* LEFT COLUMN: IMAGE */}
           <div className="relative overflow-hidden rounded-xl shadow-2xl">
@@ -67,7 +78,7 @@ const Features = () => {
             </ul>
           </div>
           
-        </div>
+        </TransitionUp>
       </div>
     </section>
   );

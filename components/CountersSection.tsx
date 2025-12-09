@@ -1,5 +1,6 @@
 "use client";
 
+import { TransitionDown } from '@/animation/framerAnimation';
 import React, { useState, useEffect, useRef } from 'react';
 // import { Fingerprint, Mic, Lightbulb, Settings2 } from 'lucide-react'; 
 import { 
@@ -8,7 +9,7 @@ import {
   FaSmile, 
   FaAward 
 } from 'react-icons/fa';
-// Assuming you are using lucide-react for icons.
+import { TransitionUp } from '@/animation/framerAnimation';
 
 // --- INTERFACES (TypeScript Types) ---
 interface CounterItem {
@@ -75,8 +76,8 @@ const CounterBlock: React.FC<CounterItem> = ({ Icon, value, label }) => {
 
   return (
     <div className="w-full flex flex-col items-center text-center bg-white rounded-xl border border-black/20 border-l-amber-500 px-4 py-10">
-      <div className="flex justify-center items-center space-x-2 sm:space-x-4">
-        <div className='relative text-left pl-15'>
+      <div className="flex justify-center items-center w-full space-x-2 sm:space-x-4">
+        <div className='relative w-full text-left pl-15'>
             {/* Icon (Mic/Fingerprint/Bulb/Settings) */}
             <span className='bg-amber-500 border-dotted flex justify-center items-center absolute top-2 left-0 w-12 h-12 rounded-full'>
                 <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-sm text-white" /> 
@@ -100,7 +101,7 @@ const CounterBlock: React.FC<CounterItem> = ({ Icon, value, label }) => {
 const CountersSection: React.FC = () => {
   return (
     <section id="counters" className="py-16 md:py-24 bg-white">
-      <div className="container">
+      <TransitionUp className="container">
         
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -125,7 +126,7 @@ const CountersSection: React.FC = () => {
           ))}
           
         </div>
-      </div>
+      </TransitionUp>
     </section>
   );
 };

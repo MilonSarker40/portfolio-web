@@ -1,6 +1,8 @@
+"use client";
 import React from 'react';
 import { Mic, Fingerprint, Lightbulb, Settings2, Bell, ClipboardList, AlertTriangle, Settings } from 'lucide-react'; 
-// Using lucide-react icons. If you use Heroicons or Font Awesome, replace these imports.
+import Image from 'next/image';
+import { TransitionUp } from '@/animation/framerAnimation';
 
 const servicesData = [
   { name: 'Web Design', description: 'Modern & Responsive Web Design using HTML5, CSS3, Bootstrap5, Tailwind CSS & Modern Jquery.Clean, SEO-friendly & mobile-optimized UI with fast loading speed.', Icon: Mic },
@@ -29,10 +31,36 @@ const ServiceCard = ({ name, description, Icon }) => {
   );
 };
 
-const OurService = () => {
+const OurService = ({id}) => {
   return (
-    <section className="bg-[#f0f5fe] py-16 md:py-24">
-      <div className="container">
+    <section className="bg-[#f0f5fe] py-16 md:py-24 relative overflow-hidden" id={id}>
+      {/* Left Background Image */}
+      <div className="absolute left-0 max-w-[600px] w-full inset-y-0 animate-float-left">
+        <div className="absolute inset-0 opacity-80">
+          <Image
+            src="/images/shape-13.png"
+            alt="Left Background"
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="100vw"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Right Background Image */}
+      <div className="absolute right-[-200px] top-1/2 -translate-y-1/2 max-w-[600px] w-full animate-float-right">
+        <div className="opacity-80">
+          <Image
+            src="/images/shape-14.png"
+            alt="Right Background"
+            width={600}
+            height={600}
+            className="object-cover"
+          />
+        </div>
+      </div>
+      <TransitionUp className="container">
         <div className='bg-white p-10'>
             {/* Header Section */}
             <div className="text-center mb-12">
@@ -48,17 +76,41 @@ const OurService = () => {
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
             
             {servicesData.map((service, index) => (
+              <TransitionUp key={index} delay={index * 0.3}>
                 <ServiceCard 
                 key={index}
                 name={service.name}
                 description={service.description}
                 Icon={service.Icon}
                 />
+              </TransitionUp>
             ))}
             
             </div>
         </div>
-      </div>
+      </TransitionUp>
+      <style jsx>{`
+        @keyframes floatLeft {
+          0% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-20px) scale(1.05); }
+          100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes floatRight {
+          0% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(20px) scale(1.05); }
+          100% { transform: translateY(0) scale(1); }
+        }
+
+        .animate-float-left {
+          animation: floatLeft 6s ease-in-out infinite;
+        }
+
+        .animate-float-right {
+          animation: floatRight 6s ease-in-out infinite;
+        }
+      `}</style>
+
     </section>
   );
 };

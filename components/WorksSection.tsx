@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { TransitionUp } from "@/animation/framerAnimation";
 
 // TYPES
 interface WorkItem {
@@ -191,7 +192,7 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
       : category;
 
   return (
-    <div
+    <TransitionUp
       className="group overflow-hidden rounded-xl shadow-lg bg-white hover:shadow-2xl transition 
                  opacity-0 translate-y-5 animate-[fadeInUp_0.6s_ease_forwards]"
     >
@@ -224,12 +225,12 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
         </p>
         <h3 className="text-lg font-bold text-gray-900">{title}</h3>
       </div>
-    </div>
+    </TransitionUp>
   );
 };
 
 // MAIN WORKS SECTION
-const WorksSection: React.FC = () => {
+const WorksSection: React.FC = ({id}) => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [visibleCount, setVisibleCount] = useState<number>(6);
 
@@ -250,8 +251,18 @@ const WorksSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-white" id="works">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-20 bg-white relative overflow-hidden" id={id}>
+      <div className="absolute inset-0">
+        <Image
+          src="/images/testimonial-bg.png"
+          alt="Left Background"
+          fill
+          style={{ objectFit: "cover" }}
+          sizes="100vw"
+          priority
+        />
+      </div>
+      <TransitionUp className="max-w-7xl mx-auto px-6 relative z-10">
         {/* HEADER */}
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Works
@@ -280,7 +291,9 @@ const WorksSection: React.FC = () => {
         {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleWorks.map((work, i) => (
-            <PortfolioItem key={i} {...work} />
+            <TransitionUp key={i} delay={i * 0.3}>
+              <PortfolioItem key={i} {...work} />
+            </TransitionUp>
           ))}
         </div>
 
@@ -295,7 +308,7 @@ const WorksSection: React.FC = () => {
             </button>
           </div>
         )}
-      </div>
+      </TransitionUp>
 
       {/* CSS Animation Keyframes */}
       <style>{`
@@ -309,3 +322,5 @@ const WorksSection: React.FC = () => {
 };
 
 export default WorksSection;
+
+
