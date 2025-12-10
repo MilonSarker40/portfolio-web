@@ -6,7 +6,7 @@ import { TransitionLeft,TransitionRight } from '@/animation/framerAnimation';
 
 const Banner = () => {
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative bg-[#F5FCFC] pb-20 lg:pb-30 md:pb-25 sm:pb-20 pt-30 lg:pt-45 md:pt-40 sm:pt-35 overflow-hidden">
       {/* Left Background Image */}
       <div className="absolute left-0 max-w-[600px] w-full inset-y-0 animate-float-left">
         <div className="absolute inset-0 opacity-30">
@@ -22,8 +22,8 @@ const Banner = () => {
       </div>
 
       {/* Right Background Image */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 max-w-[500px] w-full animate-float-right">
-        <div className="opacity-30 relative w-[500px] h-[500px]">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 lg:block md:hidden max-w-[200px] lg:max-w-[500px] md:max-w-[400px] sm:max-w-[300px] w-full animate-float-right">
+        <div className="opacity-30 relative w-[200px] lg:w-[500px] md:w-[400px] sm:w-[300px] h-[200px] lg:h-[500px] md:h-[400px] sm:h-[300px]">
           <Image
             src="/images/world-img.png"
             alt="Right Background"
@@ -35,19 +35,19 @@ const Banner = () => {
 
       {/* Content */}
         <div className="container relative z-10">
-          <div className="flex justify-between items-center">
-            <TransitionLeft className="pr-10 max-w-xl">
+          <div className="lg:flex md:block justify-between items-center">
+            <TransitionLeft className="pr-0 lg:pr-10 md:pr-0 lg:max-w-[700px] md:max-w-full w-full">
               <h3 className="text-3xl font-semibold mb-2 text-[#fc9800] capitalize">
                 Frontend Developer
               </h3>
-              <p className="text-lg text-justify text-gray-800 mb-8">
+              <p className="text-xs lg:text-lg md:text-lg sm:text-sm text-gray-800 mb-8">
                 I'm a Web Developer with 5 years of experience specializing in building high-performance, scalable, and visually stunning digital experiences. I work extensively with HTML, CSS, Bootstrap, JavaScript, React.js, Next.js, Tailwind CSS, Zustand, Axios, and modern full-stack technologies to create responsive interfaces, optimized APIs, and smooth user interactions. My focus is on writing clean, maintainable code, delivering pixel-perfect UI, and developing applications that balance performance, usability, and strong architecture.
               </p>
               <button className="px-6 py-3 bg-[#fc9800] text-white cursor-pointer hover:bg-black rounded-full transition duration-300">
                 View My Work
               </button>
             </TransitionLeft>
-            <TransitionRight className="relative">
+            <TransitionRight className="relative flex justify-center pt-10 lg:pt-0 mg:pt-10">
               <img
                 src="/images/marketing.d112606e.png"
                 alt="Banner"

@@ -1,17 +1,18 @@
+// app/layout.tsx
+import React from "react";
 import type { Metadata } from "next";
-// Roboto ফন্ট ইমপোর্ট করা হলো
-import { Roboto } from "next/font/google"; 
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-// Roboto ফন্ট কনফিগারেশন: weight এবং subsets নির্দিষ্ট করা হয়েছে
+// Roboto font configuration
 const roboto = Roboto({
-  weight: ['300', '400', '500', '700', '900'], // প্রয়োজনীয় weight গুলো এখানে দিন
+  weight: ["300", "400", "500", "700", "900"],
   subsets: ["latin"],
-  variable: "--font-roboto", // CSS ভ্যারিয়েবল নাম
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -26,10 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* বডিতে Roboto ফন্ট ভ্যারিয়েবল ব্যবহার করা হয়েছে */}
-      <body
-        className={`${roboto.variable} font-sans antialiased`} 
-      >
+      <body className={`${roboto.variable} font-sans antialiased`}>
         <Header />
         {children}
         <Footer />

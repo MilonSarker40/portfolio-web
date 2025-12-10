@@ -132,7 +132,7 @@ const PostItemComponent: React.FC<PostItem> = ({ title, excerpt, date, imageSrc,
 // --- 5. Main PostSlider Component ---
 const PostSlider: React.FC = ({id}) => {
   return (
-    <section id="blog-slider" className="py-16 md:py-24 bg-gray-50 relative" id={id}>
+    <section className="py-16 md:py-24 bg-gray-50 relative" id={id}>
       <div className='cta-background'></div>
       <div className="container">
         <div className='bg-white p-10 pb-14 relative z-10'>
@@ -148,7 +148,7 @@ const PostSlider: React.FC = ({id}) => {
           </TransitionUp>
 
           {/* Slider */}
-          <div className="relative">
+          <div className="relative" id="blog-slider">
             <Slider {...settings}>
               {postsData.map((post, index) => (
                 <TransitionUp key={post.id} delay={index * 1}>

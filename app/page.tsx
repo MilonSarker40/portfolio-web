@@ -9,25 +9,12 @@ import WorksSection from "@/components/WorksSection";
 export default function Home() {
   return (
     <main className="min-h-screen w-full">
-      {/* Hero Banner */}
       <Banner />
-
-      {/* Features Section */}
       <Features id="about" />
-
-      {/* Services Section */}
       <OurService id="services" />
-
-      {/* Projects / Works Section */}
       <WorksSection id="projects" />
-
-      {/* About Us Section */}
       <AboutUs />
-
-      {/* Counters Section */}
       <CountersSection />
-
-      {/* Blog / Posts Section */}
       <PostSlider id="blog" />
     </main>
   );
