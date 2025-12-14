@@ -1,13 +1,17 @@
 "use client";
 
-import React from 'react';
-import Image from 'next/image';
-import Slider from 'react-slick'; 
-import { Calendar } from 'lucide-react'; 
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { Calendar } from "lucide-react";
 import { IoMdArrowForward } from "react-icons/io";
-import { TransitionUp } from '@/animation/framerAnimation';
+import { TransitionUp } from "@/animation/framerAnimation";
 
-// --- 1. INTERFACES (TypeScript Types) ---
+/* ---------------- CONFIG ---------------- */
+const PRIMARY_COLOR = "#fc9800";
+const BG_LIGHT_BLUE = "#f0f5fe";
+const AUTOPLAY_DELAY = 3000;
+
+/* ---------------- TYPES ---------------- */
 interface PostItem {
   id: number;
   title: string;
@@ -17,152 +21,169 @@ interface PostItem {
   link: string;
 }
 
-// --- 2. DUMMY DATA ---
+/* ---------------- DATA ---------------- */
 const postsData: PostItem[] = [
   {
     id: 1,
-    title: 'Getting Started with Next.js 15: A Beginner’s Guide',
-    excerpt: 'I craft pixel-perfect interfaces using HTML, CSS, Bootstrap, Jquery, Javascript and modern design systems.',
-    date: '20.08.2024',
-    imageSrc: '/images/projects/puresounds-cloud.png',
-    link: '#',
+    title: "Getting Started with Next.js 15: A Beginner’s Guide",
+    excerpt:
+      "I craft pixel-perfect interfaces using HTML, CSS, Bootstrap, Jquery, Javascript and modern design systems.",
+    date: "20.08.2024",
+    imageSrc: "/images/projects/puresounds-cloud.png",
+    link: "#",
   },
   {
     id: 2,
-    title: 'Top VS Code Extensions Every Frontend Developer Should Use',
-    excerpt: 'I craft pixel-perfect interfaces using HTML, CSS, Bootstrap, Jquery, Javascript and modern design systems.',
-    date: '18.08.2020',
-    imageSrc: '/images/projects/kurtimmo.png',
-    link: '#',
+    title: "Top VS Code Extensions Every Frontend Developer Should Use",
+    excerpt:
+      "I craft pixel-perfect interfaces using HTML, CSS, Bootstrap, Jquery, Javascript and modern design systems.",
+    date: "18.08.2020",
+    imageSrc: "/images/projects/kurtimmo.png",
+    link: "#",
   },
   {
     id: 3,
-    title: 'How to Create Dark Mode in React with Nextjs',
-    excerpt: 'Learn how to create an effective dark mode layout in React using Tailwind CSS and modern interface techniques.',
-    date: 'Nov 20, 2025',
-    imageSrc: '/images/projects/myrobi-iqra-live.png',
-    link: '#',
+    title: "How to Create Dark Mode in React with Nextjs",
+    excerpt:
+      "Learn how to create an effective dark mode layout in React using Tailwind CSS and modern interface techniques.",
+    date: "Nov 20, 2025",
+    imageSrc: "/images/projects/myrobi-iqra-live.png",
+    link: "#",
   },
   {
     id: 4,
-    title: 'Next.js Image Optimization Explained',
-    excerpt: 'Build high-performance web applications using Next.js and React with fast rendering, strong SEO, and optimized user experience.',
-    date: 'Nov 15, 2024',
-    imageSrc: '/images/projects/lekharpoka.png',
-    link: '#',
+    title: "Next.js Image Optimization Explained",
+    excerpt:
+      "Build high-performance web applications using Next.js and React with fast rendering, strong SEO, and optimized user experience.",
+    date: "Nov 15, 2024",
+    imageSrc: "/images/projects/lekharpoka.png",
+    link: "#",
   },
 ];
 
-
-// --- 3. Slider Settings ---
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: { slidesToShow: 2 },
-    },
-    {
-      breakpoint: 640,
-      settings: { slidesToShow: 1 },
-    },
-  ],
-  className: "slick-list-padding",
-};
-
-// --- 4. PostItem Component ---
-const PostItemComponent: React.FC<PostItem> = ({ title, excerpt, date, imageSrc, link }) => {
+/* ---------------- CARD ---------------- */
+const PostItemComponent: React.FC<PostItem> = ({
+  title,
+  excerpt,
+  date,
+  imageSrc,
+  link,
+}) => {
   return (
-    <div className="p-2 h-full"> 
-      <div className="bg-[#f0f5fe] rounded-xl overflow-hidden h-full flex flex-col transition duration-300 hover:shadow-2xl">
-        
-        {/* Image */}
+    <div className="p-2 h-full">
+      <div
+        className="rounded-xl overflow-hidden h-full flex flex-col hover:shadow-2xl transition"
+        style={{ backgroundColor: BG_LIGHT_BLUE }}
+      >
         <div className="relative w-full aspect-video">
-          <Image
-            src={imageSrc}
-            alt={title}
-            fill
-            style={{ objectFit: 'cover' }}
-            sizes="(max-width: 1024px) 100vw, 33vw"
-          />
+          <Image src={imageSrc} alt={title} fill className="object-cover" />
         </div>
 
-        {/* Content */}
-        <div className="p-6 flex flex-col flex-grow">
-
-          {/* Date */}
+        <div className="p-5 flex flex-col flex-grow">
           <div className="flex items-center text-sm text-gray-500 mb-2">
-            <Calendar className="w-4 h-4 mr-1 text-amber-500" />
+            <Calendar className="w-4 h-4 mr-1" style={{ color: PRIMARY_COLOR }} />
             <span>{date}</span>
           </div>
 
-          {/* TITLE + EXCERPT (Equal height wrapper) */}
-          <div className="flex-grow min-h-[140px] flex flex-col">
-            <h3 className="text-base font-bold text-gray-900 mb-3">
-              <a href={link} className="hover:text-amber-500 transition duration-150">
-                {title}
-              </a>
-            </h3>
+          <h3 className="font-bold text-gray-900 mb-3">{title}</h3>
 
-            <p className="text-gray-600 text-sm flex-grow line-clamp-3">
-              {excerpt}
-            </p>
-          </div>
+          <p className="text-gray-600 text-sm flex-grow line-clamp-3">
+            {excerpt}
+          </p>
 
-          {/* Read More Button */}
-          <a 
-            href={link} 
-            className="text-amber-500 font-semibold flex items-center text-sm hover:text-black transition duration-150 mt-auto"
+          <a
+            href={link}
+            className="mt-4 font-semibold flex items-center text-sm"
+            style={{ color: PRIMARY_COLOR }}
           >
-            Read More <IoMdArrowForward className="pl-1 text-lg" />
+            Read More <IoMdArrowForward className="ml-1" />
           </a>
-
         </div>
       </div>
     </div>
   );
 };
 
-// --- 5. Main PostSlider Component ---
-const PostSlider: React.FC = ({id}) => {
-  return (
-    <section className="py-16 md:py-24 bg-gray-50 relative" id={id}>
-      <div className='cta-background'></div>
-      <div className="container">
-        <div className='bg-white p-10 pb-14 relative z-10'>
+/* ---------------- SLIDER ---------------- */
+const PostSlider: React.FC<{ id?: string }> = ({ id }) => {
+  const [index, setIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(3);
 
+  /* Responsive slides */
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth < 640) setSlidesPerView(1);
+      else if (window.innerWidth < 1024) setSlidesPerView(2);
+      else setSlidesPerView(3);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const maxIndex = postsData.length - slidesPerView;
+
+  /* Autoplay */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, AUTOPLAY_DELAY);
+    return () => clearInterval(timer);
+  }, [maxIndex]);
+
+  return (
+    <section className="py-16 md:py-24 bg-gray-50" id={id}>
+      <div className="container">
+        <div className="bg-white p-6 lg:p-10 rounded-xl">
           {/* Header */}
-          <TransitionUp className="text-center mb-12">
-            <p className="text-sm font-semibold text-amber-500 uppercase tracking-wider">
+          <TransitionUp className="text-center mb-10">
+            <p
+              className="text-sm font-semibold uppercase tracking-wider"
+              style={{ color: PRIMARY_COLOR }}
+            >
               Latest News
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+            <h2 className="text-3xl md:text-4xl font-bold mt-2">
               Our Blog Posts
             </h2>
           </TransitionUp>
 
           {/* Slider */}
-          <div className="relative" id="blog-slider">
-            <Slider {...settings}>
-              {postsData.map((post, index) => (
-                <TransitionUp key={post.id} delay={index * 1}>
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${
+                  (100 / slidesPerView) * index
+                }%)`,
+              }}
+            >
+              {postsData.map((post) => (
+                <div
+                  key={post.id}
+                  className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0"
+                >
                   <PostItemComponent {...post} />
-                </TransitionUp>
+                </div>
               ))}
-            </Slider>
+            </div>
           </div>
 
+          {/* Pagination */}
+          <div className="flex justify-center gap-2 mt-6" id="blog-slider">
+            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                className={`blog-dot ${index === i ? "active" : ""}`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 };
-
 
 export default PostSlider;

@@ -1,0 +1,93 @@
+/*
+* File include download count related script
+* Created by WPOS team
+*/
+
+jQuery( document ).ready(function($) {
+
+	$(document).on('click','.olam-custom-download-btn', function(e) {
+
+		e.preventDefault();
+
+		var id 			= $(this).attr('data-download-id');
+		var user_id 	= $(this).attr('data-user');
+		var expiry_time = localStorage.getItem( 'olam_product_'+id );
+		var downloadUrl = $(this).attr('href');
+
+		var data = {
+			action  : 'olam_custom_download_counter',
+			id   	: id,
+			user_id : user_id,
+			time 	: expiry_time,
+		};
+
+		$.post(OlamCustom.ajaxurl, data, function(response) {
+			if( response.success == 1 ) {
+				olam_download_click_data( 'olam_product_'+id, response.expiry, 'set' );
+				$('body').append('<iframe src="'+downloadUrl+'" class="olam-download-frame hide-class" />');
+			} else {
+				$('body').append('<iframe src="'+downloadUrl+'" class="olam-download-frame hide-class" />');
+			}
+
+			setTimeout( function() { 
+				$('.olam-download-frame').remove();
+			}, 5000 );
+		});		
+		
+		return false;
+	});
+
+});
+
+  // Envato Partners Search Widget
+  jQuery(document).ready(function() {
+	var autoScrollDirection = "next"
+	var totalSlideNr = jQuery('.slide').length
+	var currentSlideIndex = 1;
+	setInterval(()=>{
+		if (currentSlideIndex==totalSlideNr) autoScrollDirection = "prev"
+		if (currentSlideIndex==1) autoScrollDirection = "next"
+
+		// console.log(direction + currentSlide)
+		if (autoScrollDirection == "next") {
+			currentSlideIndex++;
+			jQuery(".sliderWrapper").animate({ scrollLeft: "+=270px" }, "slow");
+		}
+		else {
+			currentSlideIndex--;
+			jQuery(".sliderWrapper").animate({ scrollLeft: "-=270px" }, "slow");
+		}
+	}, 5000)
+    jQuery(".nextSlide").click(function() {
+      jQuery(".sliderWrapper").animate({ scrollLeft: "+=270px" }, "slow");
+    });
+
+    jQuery(".prevSlide").click(function() {
+      jQuery(".sliderWrapper").animate({ scrollLeft: "-=270px" }, "slow");
+    });
+  });
+
+/* Function to store download click data in browser */
+function olam_download_click_data( storage_name, stored_obj, type ) {
+
+	var download_data	= '';
+	var stored_data		= '';
+	stored_obj			= stored_obj	? stored_obj	: '';
+	type				= type			? type			: 'get';
+
+	/* Check browser support */
+	if ( typeof(Storage) !== "undefined" ) {
+
+		if( type == 'set' ) {
+
+			stored_data	= JSON.stringify( stored_obj );
+			localStorage.setItem( storage_name, stored_data );
+
+		} else if ( type == 'get' ) {
+
+			download_data = localStorage.getItem( storage_name );
+		}
+	}
+
+	return download_data;
+}

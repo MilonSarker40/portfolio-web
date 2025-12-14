@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { TransitionUp } from "@/animation/framerAnimation";
 
-// TYPES
 interface WorkItem {
   title: string;
   category: string;
@@ -15,6 +14,11 @@ interface WorkItem {
 }
 
 interface PortfolioItemProps extends WorkItem {}
+
+interface WorksSectionProps {
+  id?: string;
+}
+
 
 // DUMMY PROJECT DATA
 const worksData: WorkItem[] = [
@@ -175,27 +179,37 @@ const worksData: WorkItem[] = [
 
 ];
 
-// CATEGORY LIST
-const categories = ["All", "Web Design", "UI/UX Design", "Reactjs", "Nextjs", "Nodejs"];
+/* -------------------------------------------------------------------------- */
+/*                                CATEGORIES                                  */
+/* -------------------------------------------------------------------------- */
 
-// INDIVIDUAL PORTFOLIO ITEM — PURE CSS ANIMATION
-const PortfolioItem: React.FC<PortfolioItemProps> = ({
+const categories = [
+  "All",
+  "Web Design",
+  "UI/UX Design",
+  "Reactjs",
+  "Nextjs",
+  "Nodejs",
+];
+
+/* -------------------------------------------------------------------------- */
+/*                           PORTFOLIO CARD                                    */
+/* -------------------------------------------------------------------------- */
+
+function PortfolioItem({
   title,
   category,
   subcategories,
   imageSrc,
   link,
-}) => {
+}: PortfolioItemProps) {
   const displayCategory =
     subcategories.length > 0
       ? `${category} / ${subcategories.join(", ")}`
       : category;
 
   return (
-    <TransitionUp
-      className="group overflow-hidden rounded-xl shadow-lg bg-white hover:shadow-2xl transition 
-                 opacity-0 translate-y-5 animate-[fadeInUp_0.6s_ease_forwards]"
-    >
+    <TransitionUp className="group overflow-hidden rounded-xl shadow-lg bg-white hover:shadow-2xl transition">
       {/* IMAGE */}
       <div className="relative w-full aspect-[4/3] overflow-hidden">
         <Image
@@ -205,15 +219,16 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {/* HOVER BUTTON */}
+        {/* HOVER */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 
-                        flex items-center justify-center transition duration-300">
+                        flex items-center justify-center transition">
           <a
             href={link}
             target="_blank"
-            className="px-5 py-3 bg-white text-amber-500 font-semibold rounded-full flex items-center gap-2 hover:bg-amber-500 hover:text-white transition"
+            className="px-5 py-3 bg-white text-amber-500 font-semibold rounded-full 
+                       flex items-center gap-2 hover:bg-amber-500 hover:text-white transition"
           >
-            View Project <ArrowRight size={20} />
+            View Project <ArrowRight size={18} />
           </a>
         </div>
       </div>
@@ -227,14 +242,16 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
       </div>
     </TransitionUp>
   );
-};
+}
 
-// MAIN WORKS SECTION
-const WorksSection: React.FC = ({id}) => {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [visibleCount, setVisibleCount] = useState<number>(6);
+/* -------------------------------------------------------------------------- */
+/*                             WORKS SECTION                                   */
+/* -------------------------------------------------------------------------- */
 
-  // FILTER
+export default function WorksSection({ id }: WorksSectionProps) {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [visibleCount, setVisibleCount] = useState(6);
+
   const filteredWorks = worksData.filter((item) => {
     const selected = activeCategory.toLowerCase();
     return (
@@ -246,40 +263,36 @@ const WorksSection: React.FC = ({id}) => {
 
   const visibleWorks = filteredWorks.slice(0, visibleCount);
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 3);
-  };
-
   return (
-    <section className="py-20 bg-white relative overflow-hidden" id={id}>
+    <section id={id} className="py-20 bg-white relative overflow-hidden">
+      {/* BACKGROUND */}
       <div className="absolute inset-0">
         <Image
           src="/images/testimonial-bg.png"
-          alt="Left Background"
+          alt="Background"
           fill
-          style={{ objectFit: "cover" }}
-          sizes="100vw"
+          className="object-cover"
           priority
         />
       </div>
-      <TransitionUp className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* HEADER */}
+
+      <TransitionUp className="container relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Works
         </h2>
 
-        {/* CATEGORY BUTTONS */}
+        {/* FILTER */}
         <div className="flex flex-wrap justify-center gap-3 mb-14">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => {
                 setActiveCategory(cat);
-                setVisibleCount(6); // reset to 6 on category change
+                setVisibleCount(6);
               }}
-              className={`px-5 py-2 rounded-full text-sm transition-all duration-300 ${
+              className={`px-5 py-2 rounded-full text-sm transition ${
                 activeCategory === cat
-                  ? "bg-[#fc9800] text-white shadow-md"
+                  ? "bg-[#fc9800] text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-[#fc9800] hover:text-white"
               }`}
             >
@@ -291,36 +304,28 @@ const WorksSection: React.FC = ({id}) => {
         {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleWorks.map((work, i) => (
-            <TransitionUp key={i} delay={i * 0.3}>
-              <PortfolioItem key={i} {...work} />
+            <TransitionUp key={work.title} delay={i * 0.15}>
+              <PortfolioItem {...work} />
             </TransitionUp>
           ))}
         </div>
 
-        {/* LOAD MORE BUTTON */}
+        {/* LOAD MORE */}
         {visibleCount < filteredWorks.length && (
           <div className="text-center mt-12">
             <button
-              onClick={handleLoadMore}
-              className="px-7 py-3 bg-[#fc9800] text-white font-semibold rounded-full hover:bg-[#e08800] transition"
+              onClick={() => setVisibleCount((p) => p + 3)}
+              className="px-7 py-3 bg-[#fc9800] text-white font-semibold rounded-full 
+                         hover:bg-[#e08800] transition"
             >
               Load More
             </button>
           </div>
         )}
       </TransitionUp>
-
-      {/* CSS Animation Keyframes */}
-      <style>{`
-        @keyframes fadeInUp {
-          0% { opacity: 0; transform: translateY(20px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </section>
   );
-};
+}
 
-export default WorksSection;
 
 

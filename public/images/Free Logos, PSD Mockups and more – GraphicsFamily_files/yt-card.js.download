@@ -1,0 +1,11 @@
+(function($) {
+"use strict";
+jQuery(document).ready(function(){
+    window.setTimeout(function(){
+        jQuery(".ytsubscribebuttoncard").addClass('ytsubscribebuttoncard_showing');
+    }, 1000);
+    jQuery(".ytsubscribebuttoncard_close").on("click", function(){
+        jQuery(".ytsubscribebuttoncard").removeClass("ytsubscribebuttoncard_showing");
+    });
+});
+})(jQuery);

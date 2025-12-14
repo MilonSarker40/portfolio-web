@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, MotionProps } from "framer-motion";
+import { motion, MotionProps, Easing } from "framer-motion";
 import { FC, ReactNode } from "react";
 
 interface TransitionProps extends MotionProps {
@@ -9,11 +9,12 @@ interface TransitionProps extends MotionProps {
   initialY?: number;
   initialX?: number;
   duration?: number;
-  easing?: string | [number, number, number, number];
+  easing?: Easing | Easing[]; // ✅ correct Framer Motion type
   once?: boolean; // Trigger animation only once
   delay?: number; // Custom delay for the animation
 }
 
+/* ----------------------------- Transition Up ----------------------------- */
 export const TransitionUp: FC<TransitionProps> = ({
   children,
   className = "",
@@ -38,6 +39,7 @@ export const TransitionUp: FC<TransitionProps> = ({
   );
 };
 
+/* ---------------------------- Transition Down ----------------------------- */
 export const TransitionDown: FC<TransitionProps> = ({
   children,
   className = "",
@@ -62,6 +64,7 @@ export const TransitionDown: FC<TransitionProps> = ({
   );
 };
 
+/* ---------------------------- Transition Left ----------------------------- */
 export const TransitionLeft: FC<TransitionProps> = ({
   children,
   className = "",
@@ -86,6 +89,7 @@ export const TransitionLeft: FC<TransitionProps> = ({
   );
 };
 
+/* ---------------------------- Transition Right ---------------------------- */
 export const TransitionRight: FC<TransitionProps> = ({
   children,
   className = "",

@@ -1,20 +1,27 @@
 "use client";
 
-import { TransitionDown } from '@/animation/framerAnimation';
-import React, { useState, useEffect, useRef } from 'react';
-// import { Fingerprint, Mic, Lightbulb, Settings2 } from 'lucide-react'; 
-import { 
-  FaCalendarAlt, 
-  FaProjectDiagram, 
-  FaSmile, 
-  FaAward 
-} from 'react-icons/fa';
-import { TransitionUp } from '@/animation/framerAnimation';
+import React, { useState, useEffect, useRef } from "react";
+import { TransitionUp } from "@/animation/framerAnimation";
+import {
+  FaCalendarAlt,
+  FaProjectDiagram,
+  FaSmile,
+  FaAward,
+} from "react-icons/fa";
 
-// --- INTERFACES (TypeScript Types) ---
+/* -------------------------------------------------------------------------- */
+/*                                   TYPES                                    */
+/* -------------------------------------------------------------------------- */
+
 interface CounterItem {
   id: number;
-  Icon: React.ElementType; // Type for the Lucide icon component
+  Icon: React.ElementType;
+  value: number;
+  label: string;
+}
+
+interface CounterBlockProps {
+  Icon: React.ElementType;
   value: number;
   label: string;
 }
@@ -24,7 +31,9 @@ interface CountUpProps {
   duration?: number;
 }
 
-// --- 1. Custom Hook for Count Up Animation ---
+/* -------------------------------------------------------------------------- */
+/*                            COUNT-UP HOOK                                   */
+/* -------------------------------------------------------------------------- */
 
 const useCountUp = ({ end, duration = 2000 }: CountUpProps): number => {
   const [count, setCount] = useState(0);
@@ -32,6 +41,7 @@ const useCountUp = ({ end, duration = 2000 }: CountUpProps): number => {
 
   useEffect(() => {
     const startCount = 0;
+
     const animateCount: FrameRequestCallback = (timestamp) => {
       if (!startTimeRef.current) {
         startTimeRef.current = timestamp;
@@ -39,7 +49,9 @@ const useCountUp = ({ end, duration = 2000 }: CountUpProps): number => {
 
       const progress = timestamp - startTimeRef.current;
       const percentage = Math.min(progress / duration, 1);
-      const currentValue = Math.floor(startCount + percentage * (end - startCount));
+      const currentValue = Math.floor(
+        startCount + percentage * (end - startCount)
+      );
 
       setCount(currentValue);
 
@@ -49,61 +61,61 @@ const useCountUp = ({ end, duration = 2000 }: CountUpProps): number => {
     };
 
     requestAnimationFrame(animateCount);
-    
-    // Cleanup function (optional, but good practice)
+
     return () => {
-        startTimeRef.current = null;
+      startTimeRef.current = null;
     };
   }, [end, duration]);
 
   return count;
 };
 
-// --- 2. DATA ---
+/* -------------------------------------------------------------------------- */
+/*                                   DATA                                     */
+/* -------------------------------------------------------------------------- */
 
 const counterData: CounterItem[] = [
-  { id: 1, Icon: FaCalendarAlt, value: 5, label: 'Years Experience' },
-  { id: 2, Icon: FaProjectDiagram, value: 200, label: 'Completed Projects' },
-  { id: 3, Icon: FaSmile, value: 20, label: 'Happy Customers' },
-  { id: 4, Icon: FaAward, value: 2, label: 'Honors and Awards' },
+  { id: 1, Icon: FaCalendarAlt, value: 5, label: "Years Experience" },
+  { id: 2, Icon: FaProjectDiagram, value: 200, label: "Completed Projects" },
+  { id: 3, Icon: FaSmile, value: 20, label: "Happy Customers" },
+  { id: 4, Icon: FaAward, value: 2, label: "Honors and Awards" },
 ];
 
-// --- 3. CounterBlock Component ---
+/* -------------------------------------------------------------------------- */
+/*                              COUNTER BLOCK                                 */
+/* -------------------------------------------------------------------------- */
 
-const CounterBlock: React.FC<CounterItem> = ({ Icon, value, label }) => {
-  // Use the custom hook for animation
+function CounterBlock({ Icon, value, label }: CounterBlockProps) {
   const animatedValue = useCountUp({ end: value });
 
   return (
     <div className="w-full flex flex-col items-center text-center bg-white rounded-xl border border-black/20 border-l-amber-500 px-4 py-10">
-      <div className="flex justify-center items-center w-full space-x-2 sm:space-x-4">
-        <div className='relative w-full text-left pl-15'>
-            {/* Icon (Mic/Fingerprint/Bulb/Settings) */}
-            <span className='bg-amber-500 border-dotted flex justify-center items-center absolute top-2 left-0 w-12 h-12 rounded-full'>
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-sm text-white" /> 
-            </span>
-            {/* Animated Number */}
-            <strong className="text-3xl sm:text-4xl font-bold text-gray-900">
-                {animatedValue.toLocaleString()}
-            </strong>
-            {/* Label (User/Hours/Clients/Project) */}
-            <p className="text-xs uppercase tracking-wider text-gray-600">
-                {label}
-            </p>
-        </div>
+      <div className="relative w-full text-left pl-14">
+        <span className="bg-amber-500 flex justify-center items-center absolute top-1 left-0 w-12 h-12 rounded-full">
+          <Icon className="w-5 h-5 text-white" />
+        </span>
+
+        <strong className="text-3xl sm:text-4xl font-bold text-gray-900">
+          {animatedValue.toLocaleString()}
+        </strong>
+
+        <p className="text-xs uppercase tracking-wider text-gray-600">
+          {label}
+        </p>
       </div>
     </div>
   );
-};
+}
 
-// --- 4. Main Component ---
+/* -------------------------------------------------------------------------- */
+/*                             MAIN SECTION                                    */
+/* -------------------------------------------------------------------------- */
 
-const CountersSection: React.FC = () => {
+export default function CountersSection() {
   return (
     <section id="counters" className="py-16 md:py-24 bg-white">
       <TransitionUp className="container">
-        
-        {/* Header Section */}
+        {/* HEADER */}
         <div className="text-center mb-12">
           <p className="text-sm font-semibold text-amber-500 uppercase tracking-wider">
             Counters
@@ -112,23 +124,19 @@ const CountersSection: React.FC = () => {
             Our Numbers
           </h2>
         </div>
-        
-        {/* Counters Grid (4 Columns on Desktop, 2 on Mobile) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
-          
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {counterData.map((item) => (
-            <CounterBlock 
+            <CounterBlock
               key={item.id}
               Icon={item.Icon}
               value={item.value}
               label={item.label}
             />
           ))}
-          
         </div>
       </TransitionUp>
     </section>
   );
-};
-
-export default CountersSection;
+}

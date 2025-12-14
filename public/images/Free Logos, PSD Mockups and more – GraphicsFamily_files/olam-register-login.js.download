@@ -1,0 +1,68 @@
+jQuery(document).ready(function ($) {
+    // Perform AJAX login/register on form submit
+    jQuery('form#olam-login, form#olam-register').on('submit', function (e) {
+        var curElement = "#" + jQuery(this).attr('id');
+        jQuery(curElement + ' p.status', this).show().text(ajax_auth_object.loadingmessage);
+        if (jQuery(this).attr('id') == 'olam-register') {
+            action = 'olam_ajaxregister';
+            username = jQuery('#reg-username').val();
+            password = jQuery('#reg-password').val();
+            password2 = jQuery('#reg-password2').val()
+            email = jQuery('#reg-email').val();
+            phone_number = jQuery('#reg-phone-number').val(); // New line for phone number
+            security = jQuery('#signonsecurity').val();
+            ctrl = jQuery(this);
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: ajax_auth_object.ajaxurl,
+                data: {
+                    'action': action,
+                    'username': username,
+                    'password': password,
+                    'password2': password2,
+                    'email': email,
+                    'phone_number': phone_number, // Include phone number in the data
+                    'security': security,
+                },
+                success: function (data) {
+                    jQuery(curElement + ' p.olam-msg-status').text(data.message);
+                    if (data.loggedin == true) {
+                        jQuery('.olam-msg-status').removeClass('loginerror');
+                        jQuery('.olam-msg-status').addClass('loginsucess');
+                        document.location.href = jQuery(ctrl).attr('id') == 'register' ? ajax_auth_object.register_redirect : ajax_auth_object.redirecturl;
+                    }
+                }
+            });
+        } else {
+            action = 'olam_ajaxlogin';
+            username = jQuery('form#olam-login #username').val();
+            password = jQuery('form#olam-login #password').val();
+            security = jQuery('form#olam-login #security').val();
+            ctrl = jQuery(this);
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: ajax_auth_object.ajaxurl,
+                data: {
+                    'action': action,
+                    'username': username,
+                    'password': password,
+                    'security': security,
+                },
+                success: function (data) {
+                    jQuery(curElement + ' p.olam-msg-status').text(data.message);
+                    if (data.loggedin == true) {
+                        jQuery('.olam-msg-status').removeClass('loginerror');
+                        jQuery('.olam-msg-status').addClass('loginsucess');
+                        document.location.href = jQuery(ctrl).attr('id') == 'register' ? ajax_auth_object.register_redirect : ajax_auth_object.redirecturl;
+                    } else {
+                        jQuery('.olam-msg-status').addClass('loginerror');
+                    }
+
+                }
+            });
+        }
+        e.preventDefault();
+    });
+});

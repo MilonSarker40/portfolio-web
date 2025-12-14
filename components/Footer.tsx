@@ -57,27 +57,27 @@ const Footer = () => {
             <div className="w-full md:w-1/2 lg:w-[20%]">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick links</h3>
               <ul className="space-y-2 text-gray-600">
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
                   <a href="#" className="hover:text-amber-500">Home</a>
                 </li>
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
                   <a href="#" className="hover:text-amber-500">About us</a>
                 </li>
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
                   <a href="#" className="hover:text-amber-500">Projects</a>
                 </li>
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
                   <a href="#" className="hover:text-amber-500">Services</a>
                 </li>
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
                   <a href="#" className="hover:text-amber-500">Blog</a>
                 </li>
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
                   <a href="#" className="hover:text-amber-500">Contact</a>
                 </li>
@@ -88,21 +88,21 @@ const Footer = () => {
             <div className="w-full md:w-1/2 lg:w-[20%]">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Features</h3>
               <ul className="space-y-2 text-gray-600">
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
-                  Fast Performance
+                  <a href="#" className="hover:text-amber-500">Fast Performance</a>
+                </li>
+                <li className="relative pl-5">
+                  <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
+                  <a href="#" className="hover:text-amber-500">SEO Ready</a>
                 </li>
                 <li className="relative pl-6">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
-                  SEO Ready
+                  <a href="#" className="hover:text-amber-500">Mobile Friendly</a>
                 </li>
-                <li className="relative pl-6">
+                <li className="relative pl-5">
                   <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
-                  Mobile Friendly
-                </li>
-                <li className="relative pl-6">
-                  <FaAnglesLeft className="absolute left-0 top-1 text-xs" />
-                  Easy Customization
+                  <a href="#" className="hover:text-amber-500">Easy Customization</a>
                 </li>
               </ul>
             </div>
@@ -111,17 +111,17 @@ const Footer = () => {
             <div className="w-full md:w-1/2 lg:w-[20%]">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-600">
-                <li className="relative pl-7">
+                <li className="relative pl-5">
                   <FaMapMarkerAlt className="absolute left-0 top-[6px] text-xs" />
-                  Metro Housing Bosila, Mohammadpur, Dhaka, Bangladesh.
+                  <a href="#" className="hover:text-amber-500">Metro Housing Bosila, Mohammadpur, Dhaka, Bangladesh.</a>
                 </li>
-                <li className="relative pl-7">
+                <li className="relative pl-5">
                   <FaPhoneAlt className="absolute left-0 top-[6px] text-xs" />
-                  01521236545
+                  <a href="#" className="hover:text-amber-500">01521236545</a>
                 </li>
-                <li className="relative pl-7">
+                <li className="relative pl-5">
                   <MdOutlineEmail className="absolute left-0 top-[6px] text-xs" />
-                  info@example.com
+                  <a href="#" className="hover:text-amber-500">info@example.com</a>
                 </li>
               </ul>
             </div>
